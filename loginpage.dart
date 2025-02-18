@@ -1,5 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'homescreen.dart'; // Import the home screen
+import 'homescreen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MyLogin extends StatefulWidget {
@@ -13,6 +14,49 @@ class _MyLoginState extends State<MyLogin> {
   bool isSignUp = false;
   bool isPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+
+  Future<void> signUp() async {
+    if (passwordController.text != confirmPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Passwords do not match")),
+      );
+      return;
+    }
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? "An error occurred")),
+      );
+    }
+  }
+
+  Future<void> login() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? "An error occurred")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +150,7 @@ class _MyLoginState extends State<MyLogin> {
                       ),
                       const SizedBox(height: 20),
                       TextField(
+                        controller: emailController,
                         decoration: InputDecoration(
                           hintText: "Enter email or username",
                           border: UnderlineInputBorder(
@@ -115,6 +160,7 @@ class _MyLoginState extends State<MyLogin> {
                       ),
                       const SizedBox(height: 15),
                       TextField(
+                        controller: passwordController,
                         obscureText: !isPasswordVisible,
                         decoration: InputDecoration(
                           hintText: "Password",
@@ -138,6 +184,7 @@ class _MyLoginState extends State<MyLogin> {
                       if (isSignUp) ...[
                         const SizedBox(height: 15),
                         TextField(
+                          controller: confirmPasswordController,
                           obscureText: !isConfirmPasswordVisible,
                           decoration: InputDecoration(
                             hintText: "Confirm Password",
@@ -170,12 +217,11 @@ class _MyLoginState extends State<MyLogin> {
                               borderRadius: BorderRadius.circular(20)),
                         ),
                         onPressed: () {
-                          // Navigate to the home screen
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => GullunaHomePage()),
-                          );
+                          if (isSignUp) {
+                            signUp();
+                          } else {
+                            login();
+                          }
                         },
                         child: Text(
                           isSignUp ? 'Sign Up' : 'Login',
