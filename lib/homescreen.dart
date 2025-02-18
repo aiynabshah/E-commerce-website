@@ -41,7 +41,7 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 15),
 
-              // Search Bar
+              // Search Bar changes done
               Row(
                 children: [
                   Expanded(
