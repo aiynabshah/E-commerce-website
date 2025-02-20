@@ -61,7 +61,7 @@ class addtocart extends StatelessWidget {
                 children: [
                   Text('Red & Black Silk', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                   SizedBox(height: 8),
-                  Text('Rs 20,000', style: TextStyle(fontSize: 20, color: Colors.red)),
+                  Text('Rs 20,000', style: TextStyle(fontSize: 20, color: Colors.black)),
                   SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
