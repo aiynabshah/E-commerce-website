@@ -21,7 +21,7 @@ class _MyLoginState extends State<MyLogin> {
   Future<void> signUp() async {
     if (passwordController.text != confirmPasswordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Passwords do not match plz")),
+        const SnackBar(content: Text("Passwords do not match")),
       );
       return;
     }
@@ -30,9 +30,23 @@ class _MyLoginState extends State<MyLogin> {
         email: emailController.text,
         password: passwordController.text,
       );
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Account Created"),
+          content: const Text("You have successfully created an account."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() {
+                  isSignUp = false;
+                });
+              },
+              child: const Text("OK"),
+            ),
+          ],
+        ),
       );
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

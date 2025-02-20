@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'addtocart.dart'; // Import the AddToCartScreen
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -160,9 +161,17 @@ class HomeScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildProductCard("assets/m2.jpeg"),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => addtocart()),
+                      );
+                    },
+                    child: _buildProductCard("assets/m2.jpeg"),
+                  ),
                   const SizedBox(width: 10),
-                  _buildProductCard("assets/image7.png"),
+                  _buildProductCardWithMenu("assets/image7.png"),
                 ],
               ),
             ],
@@ -213,6 +222,44 @@ class HomeScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         child: Image.asset(imagePath, fit: BoxFit.cover),
       ),
+    );
+  }
+
+  Widget _buildProductCardWithMenu(String imagePath) {
+    return Stack(
+      children: [
+        _buildProductCard(imagePath),
+        Positioned(
+          top: 10,
+          right: 10,
+          child: PopupMenuButton(
+            icon: const Icon(Icons.more_vert, color: Colors.white),
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: 'option1',
+                child: Text('add to cart'),
+              ),
+              const PopupMenuItem(
+                value: 'option2',
+                child: Text('buy it now'),
+              ),
+            ],
+            onSelected: (value) {
+              // Handle menu item selection
+            },
+          ),
+        ),
+        Positioned(
+          top: 10,
+          left: 10,
+          child: IconButton(
+            icon: const Icon(Icons.favorite_border, color: Colors.white),
+            onPressed: () {
+              // Handle wishlist button press
+            },
+          ),
+        ),
+      ],
     );
   }
 }
