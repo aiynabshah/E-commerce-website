@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(25),
                           borderSide: BorderSide(color: Colors.grey.shade300),
                         ),
-                        prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                        prefixIcon: const Icon(Icons.search, color: Colors.white),
                       ),
                     ),
                   ),
@@ -168,10 +168,10 @@ class HomeScreen extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => addtocart()),
                       );
                     },
-                    child: _buildProductCard("assets/m2.jpeg"),
+                    child: _buildProductCardWithMenu("assets/rb m2.png"),
                   ),
                   const SizedBox(width: 10),
-                  _buildProductCardWithMenu("assets/image7.png"),
+                  _buildProductCardWithMenu("assets/rb p3.png"),
                 ],
               ),
             ],
@@ -209,8 +209,8 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildProductCard(String imagePath) {
     return Container(
-      width: 150,
-      height: 200,
+      width: 200,
+      height: 250,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -230,33 +230,33 @@ class HomeScreen extends StatelessWidget {
       children: [
         _buildProductCard(imagePath),
         Positioned(
-          top: 10,
-          right: 10,
-          child: PopupMenuButton(
-            icon: const Icon(Icons.more_vert, color: Colors.white),
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'option1',
-                child: Text('add to cart'),
+          top: 8,
+          left: 120,
+          child: Row(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.favorite_border, color: Colors.black),
+                onPressed: () {
+                  // Handle wishlist button press
+                },
               ),
-              const PopupMenuItem(
-                value: 'option2',
-                child: Text('buy it now'),
+              PopupMenuButton(
+                icon: const Icon(Icons.more_vert, color: Colors.black),
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: 'option1',
+                    child: Text('Add to Cart'),
+                  ),
+                  const PopupMenuItem(
+                    value: 'option2',
+                    child: Text('Buy It Now'),
+                  ),
+                ],
+                onSelected: (value) {
+                  // Handle menu item selection
+                },
               ),
             ],
-            onSelected: (value) {
-              // Handle menu item selection
-            },
-          ),
-        ),
-        Positioned(
-          top: 10,
-          left: 10,
-          child: IconButton(
-            icon: const Icon(Icons.favorite_border, color: Colors.white),
-            onPressed: () {
-              // Handle wishlist button press
-            },
           ),
         ),
       ],
