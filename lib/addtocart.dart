@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'full_screen_image.dart';
 
-class addtocart extends StatelessWidget {
+class Addtocart extends StatefulWidget {
+  @override
+  _AddtocartState createState() => _AddtocartState();
+}
+
+class _AddtocartState extends State<Addtocart> {
+  String mainImage = 'assets/rb m2.png'; // Initial main image
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,46 +34,56 @@ class addtocart extends StatelessWidget {
                 ],
               ),
             ),
-            Stack(
-              children: [
-                // Image with Gradient Overlay
-                Container(
-                  width: double.infinity,
-                  height: 400,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/rb m2.png'), // Replace with your image path
-                      fit: BoxFit.cover,
-                    ),
-                    gradient: LinearGradient(
-                      colors: [Colors.black.withOpacity(0.5), Colors.transparent],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FullScreenImage(assetName: mainImage),
                   ),
-                ),
-                // Description Overlay
-                Positioned(
-                  bottom: 20,
-                  left: 20,
-                  child: Container(
-                    padding: EdgeInsets.all(8),
+                );
+              },
+              child: Stack(
+                children: [
+                  // Image with Gradient Overlay
+                  Container(
+                    width: double.infinity,
+                    height: 400,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.8),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildFeatureRow(Icons.fiber_manual_record, Colors.green, 'Fabric: Premium Silk'),
-                        _buildFeatureRow(Icons.fiber_manual_record, Colors.yellow, 'Color: Red & Black'),
-                        _buildFeatureRow(Icons.fiber_manual_record, Colors.orange, 'Occasion: Festive, Wedding, Party'),
-                        _buildFeatureRow(Icons.fiber_manual_record, Colors.blue, 'Features: Soft Texture, Traditional Weaving'),
-                      ],
+                      image: DecorationImage(
+                        image: AssetImage(mainImage), // Use state variable
+                        fit: BoxFit.cover,
+                      ),
+                      gradient: LinearGradient(
+                        colors: [Colors.black.withOpacity(0.5), Colors.transparent],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  // Description Overlay
+                  Positioned(
+                    bottom: 20,
+                    left: 20,
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildFeatureRow(Icons.fiber_manual_record, Colors.green, 'Fabric: Premium Silk'),
+                          _buildFeatureRow(Icons.fiber_manual_record, Colors.yellow, 'Color: Red & Black'),
+                          _buildFeatureRow(Icons.fiber_manual_record, Colors.orange, 'Occasion: Festive, Wedding, Party'),
+                          _buildFeatureRow(Icons.fiber_manual_record, Colors.blue, 'Features: Soft Texture, Traditional Weaving'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -79,9 +97,9 @@ class addtocart extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildImageWithBorder('assets/m3 r.png'), // Replace with your image paths
-                      _buildImageWithBorder('assets/m4 r.png'),
-                      _buildImageWithBorder('assets/rb m2.png'),
+                      _buildImageWithBorder(context, 'assets/m3 r.png'), // Use asset
+                      _buildImageWithBorder(context, 'assets/m4 r.png'), // Use asset
+                      _buildImageWithBorder(context, 'assets/rb m2.png'), // Use asset
                     ],
                   ),
                   SizedBox(height: 16),
@@ -141,17 +159,24 @@ class addtocart extends StatelessWidget {
     );
   }
 
-  Widget _buildImageWithBorder(String imagePath) {
-    return Container(
-      width: 80,
-      height: 80,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black, width: 2),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Image.asset(imagePath, fit: BoxFit.cover),
+  Widget _buildImageWithBorder(BuildContext context, String assetName) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          mainImage = assetName; // Update the main image
+        });
+      },
+      child: Container(
+        width: 80,
+        height: 80,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black, width: 2),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset(assetName, fit: BoxFit.cover),
+        ),
       ),
     );
   }

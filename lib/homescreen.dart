@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 15),
 
-              // Search Bar changes done
+              // Search Bar
               Row(
                 children: [
                   Expanded(
@@ -165,7 +165,7 @@ class HomeScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => addtocart()),
+                        MaterialPageRoute(builder: (context) => Addtocart()),
                       );
                     },
                     child: _buildProductCardWithMenu("assets/rb m2.png"),
