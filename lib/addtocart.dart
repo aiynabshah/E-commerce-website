@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'full_screen_image.dart';
+import 'CartScreen.dart'; // Import the CartScreen
+
 
 class Addtocart extends StatefulWidget {
   @override
@@ -149,7 +151,14 @@ class _AddtocartState extends State<Addtocart> {
       width: width,
       height: height,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          if (text == 'Add To Cart') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CartScreen()),
+            );
+          }
+        },
         child: Text(text),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.black,
