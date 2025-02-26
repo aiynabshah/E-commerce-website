@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'addtocart.dart'; // Import the AddToCartScreen
+import '../addtocart.dart'; // Import the AddToCartScreen
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
